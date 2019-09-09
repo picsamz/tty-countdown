@@ -17,9 +17,6 @@ parser.add_argument("-m", "--minutes", action="store",
 parser.add_argument("-s", "--seconds", action="store",
                     type=int, help="Number of seconds",
                     default=0)
-parser.add_argument("-f", "--font", action="store",
-                    help="Custom font file",
-                    default="/usr/share/tty-countdown/font.txt")
 parser.add_argument("-n", "--nocenter", action="store_true",
                     help="Do not center timer (more efficient)")
 
@@ -28,7 +25,6 @@ args = parser.parse_args()
 centered = not args.nocenter
 seconds = args.seconds
 minutes = args.minutes
-fontFile = args.font
 
 seconds = minutes * 60 + seconds
 
@@ -83,10 +79,80 @@ def getTermDimensions():
     except subprocess.CalledProcessError:
         return [DEFAULT_HEIGHT, DEFAULT_WIDTH]
 
-#Load font file
-with open(fontFile, "r") as f:
-    font = f.read().split("\n<---->\n")
+def getFont():
+    f = """██████
+██  ██
+██  ██
+██  ██
+██████
+<---->
+    ██
+    ██
+    ██
+    ██
+    ██
+<---->
+██████
+    ██
+██████
+██    
+██████
+<---->
+██████
+    ██
+██████
+    ██
+██████
+<---->
+██  ██
+██  ██
+██████
+    ██
+    ██
+<---->
+██████
+██    
+██████
+    ██
+██████
+<---->
+██████
+██    
+██████
+██  ██
+██████
+<---->
+██████
+    ██
+    ██
+    ██
+    ██
+<---->
+██████
+██  ██
+██████
+██  ██
+██████
+<---->
+██████
+██  ██
+██████
+    ██
+    ██
+<---->
+    
+ ██ 
+    
+ ██ 
+    
+"""
+    font = f.split("\n<---->\n")
     font = [ symbol.split("\n") for symbol in font ]
+    return font
+
+
+#Load font file
+font = getFont()
 
 #Countdown
 while seconds >= 0:
